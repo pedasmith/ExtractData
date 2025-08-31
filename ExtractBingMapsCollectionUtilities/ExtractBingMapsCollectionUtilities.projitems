@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>9a93359a-b147-4c4e-80c2-664025fc8561</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>ExtractBingMapsCollectionUtilities</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)BingMapsCollectionItemJson.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BingMapsCollectionParser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BingMapsYpidCache.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BingMapsYpidWorkItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BingMapsYpidWorkQueue.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LatitudeLongitudeResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MapCollectionItem.cs" />
+  </ItemGroup>
+</Project>

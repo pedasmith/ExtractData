@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UserControl
+    x:Class="SimpleExportBingMapsCollection.BingMapsExtractorControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SimpleExportBingMapsCollection"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid>
+        <TabView VerticalAlignment="Stretch">
+            <TabView.TabItems>
+                <TabViewItem Header="Extract">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" x:Name="uiUrlTextBox" Grid.Row="0" Text="https://www.bing.com/maps" />
+                            <Button Content="Go" Grid.Column="1" Click="GoButton_Click" />
+                            <Button Content="Extract" Grid.Column="2" Click="OnExtract_Click" />
+                            <Button Content="Debug" Grid.Column="3" Click="OnDebug_Click" />
+                        </Grid>
+                        <WebView2 x:Name="uiWebView" Grid.Row="2" />
+                        <TextBlock Grid.Row="3" x:Name="uiStatus" TextWrapping="Wrap" IsTextSelectionEnabled="True" />
+                    </Grid>
+                </TabViewItem>
+                <TabViewItem Header="Developer">
+                    <ScrollView>
+                        <TextBlock x:Name="uiDeveloper" TextWrapping="Wrap" IsTextSelectionEnabled="True" />
+                    </ScrollView>
+                </TabViewItem>
+            </TabView.TabItems>
+        </TabView>
+
+    </Grid>
+
+</UserControl>

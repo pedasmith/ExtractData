@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "SimpleExportBingMapsCollection (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "SimpleExportBingMapsCollection (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

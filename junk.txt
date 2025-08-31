@@ -1,0 +1,8 @@
+ExtractBingMapsCollection\obj\ExtractBingMapsCollection.csproj.nuget.dgspec.json:          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+ExtractBingMapsCollection\obj\ExtractBingMapsCollection.csproj.nuget.dgspec.json:          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+ExtractBingMapsCollection\obj\ExtractBingMapsCollection.csproj.nuget.dgspec.json:          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+ExtractBingMapsCollection\obj\ExtractBingMapsCollection.csproj.nuget.dgspec.json:          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+ExtractBingMapsCollection\obj\ExtractBingMapsCollection.csproj.nuget.dgspec.json:          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.304/PortableRuntimeIdentifierGraph.json"
+ExtractBingMapsCollection\obj\ExtractBingMapsCollection.csproj.nuget.g.props:    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">C:\Users\toomr\.nuget\packages\;C:\Program Files (x86)\Microsoft Visual Studio\Shared\NuGetPackages</NuGetPackageFolders>
+ExtractBingMapsCollection\obj\ExtractBingMapsCollection.csproj.nuget.g.props:    <SourceRoot Include="C:\Program Files (x86)\Microsoft Visual Studio\Shared\NuGetPackages\" />
+

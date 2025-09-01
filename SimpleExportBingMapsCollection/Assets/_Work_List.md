@@ -13,10 +13,12 @@ Check all code TODO: and DBG: and here!here cmments.
 ### Convert ypid and sid
 
 Update Ypid cache to use the "right" directory
-UX for the extract. Normally it's super fast but converting the ypid takes time
-UX for when there isn't a Collections visible. Gather useful debug info and offer to email?
-N Items: ___ should be a cheerier message about how the extract is complete
 
+2025-09-01: DONE: Additional output: Markdown. And it saves "all the data"
+2025-09-01: DONE: UX for the extract. Normally it's super fast but converting the ypid takes time
+2025-09-01: DONE: UX for when there isn't a Collections visible. Gather useful debug info and offer to email?
+2025-09-01: DONE: N Items: ___ should be a cheerier message about how the extract is complete
+2025-09-01: DONE: Sort output
 2025-08-31: DONE: Export. Use a file picker. Uses the collection name for the suggested file name.
 2025-08-31: DONE: Icons + added to Gihub
 2025-08-30: DONE: The Ypid work queue is wrong! It starts off at "my" location. The only choice is to wait e.g. 5 seconds?

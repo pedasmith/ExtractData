@@ -15,8 +15,9 @@
         </Grid.RowDefinitions>
         <MenuBar Grid.Row="0">
             <MenuBarItem Title="File">
+                <MenuFlyoutItem Text="Export CSV compatible with Google Maps" Click="OnFile_Export_GoogleMapsCsv"/>
                 <MenuFlyoutItem Text="Export GeoJSON" Click="OnFile_Export_GeoJson"/>
-                <MenuFlyoutItem Text="Export Google Maps CSV" Click="OnFile_Export_GoogleMapsCsv"/>
+                <MenuFlyoutItem Text="Export Markdown" Click="OnFile_Export_Markdown"/>
                 <!-- 
                 <MenuFlyoutItem Text="Export Map Maker CSV" Click="OnFile_Export_MapMakerCsv"/>
                 -->

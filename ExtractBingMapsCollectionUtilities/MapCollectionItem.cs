@@ -41,7 +41,16 @@ namespace ExtractBingMapsCollectionUtilities
             var retval = "";
             foreach (var item in DescriptionList)
             {
-                retval += "    "+ item + "\n";
+                retval += "    " + item + "\n";
+            }
+            return retval;
+        }
+        public string DescriptionListAsStringNoIndent()
+        {
+            var retval = "";
+            foreach (var item in DescriptionList)
+            {
+                retval += item + "\n";
             }
             return retval;
         }
@@ -67,6 +76,30 @@ namespace ExtractBingMapsCollectionUtilities
             var retval = $"{LatitudeLongitude.Latitude},{LatitudeLongitude.Longitude},{CsvEscape.Escape(TaskTitle)},{CsvEscape.Escape(DescriptionListAsString())}\n";
             return retval;
         }
+
+        public string ToMarkdown()
+        {
+            var retval = "";
+            if (!string.IsNullOrEmpty(StatusDetails)) retval = $"NOTE: {StatusDetails}\n";
+            switch (ItemStatus)
+            {
+                case Status.Ok:
+                    // Reminder: DescriptionListAsString always inclues the trailing \n
+                    var idstr = $"|ID|{Id}\n";
+                    if (Id.StartsWith("//no")) idstr = ""; // suppress the id if it is not valid
+                    var originalname = $"|Original name|{OriginalName}\n";
+                    if (OriginalName.StartsWith("//no")) originalname = "";
+                    var raw =SourceDetails.ToString().Replace("\r\n", "<br>").Replace("\n", "<br>").Replace("\r", "<br>");
+                    retval += $"## {TaskTitle}\n{DescriptionListAsStringNoIndent()}### Details\n|Item|Value|\n|-----|-----|\nLocation|{LatitudeLongitude}\n{idstr}|Query|{Query}\n{originalname}|JSON|<small>{raw}</small>\n\n\n\n";
+                    break;
+                case Status.Other:
+                default:
+                    retval = $"ItemStatus: {ItemStatus} StatusDetails: {StatusDetails}\n{SourceDetails.ToString()}";
+                    break;
+            }
+            return retval;
+        }
+
         public override string ToString()
         {
             var retval = "";
@@ -77,7 +110,9 @@ namespace ExtractBingMapsCollectionUtilities
                     // Reminder: DescriptionListAsString always inclues the trailing \n
                     var idstr = $"id={Id}\n";
                     if (Id.StartsWith ("//no")) idstr = ""; // suppress the id if it is not valid
-                    retval += $"title={TaskTitle}\n{DescriptionListAsString()}at={LatitudeLongitude}\n{idstr}query={Query}\noriginal name={OriginalName}\n\nRAW={SourceDetails.ToString()}\n------------\n\n\n";
+                    var originalname = $"original name={OriginalName}\n";
+                    if (OriginalName.StartsWith("//no")) originalname = "";
+                    retval += $"title={TaskTitle}\n{DescriptionListAsString()}at={LatitudeLongitude}\n{idstr}query={Query}\n{originalname}\nRAW={SourceDetails.ToString()}\n------------\n\n\n";
                     break;
                 case Status.Other:
                 default:

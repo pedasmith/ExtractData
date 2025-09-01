@@ -80,6 +80,11 @@ namespace ExtractBingMapsCollectionUtilities
 
     */
 
+    public class ParserResult
+    {
+        public string CollectionName { get; set; } = "Collection";
+        public List<MapCollectionItem> Items { get; set; } = new List<MapCollectionItem>();
+    }
     /// <summary>
     /// Given the HTML for a Bing Map that's showing a collection, parse out the items in the collection
     /// See example above for what the HTML looks like.
@@ -87,10 +92,9 @@ namespace ExtractBingMapsCollectionUtilities
     /// </summary>
     public static class BingMapsCollectionParser
     {
-        public static string ParsedCollectionName = "Collection";
-        public static List<MapCollectionItem> Parse(string html)
+        public static ParserResult Parse(string html)
         {
-            var retval = new List<MapCollectionItem>();
+            var retval = new ParserResult();
 
 
             // Grab the collection name from the HTML. It will look like this:
@@ -110,7 +114,7 @@ namespace ExtractBingMapsCollectionUtilities
                         var collectionName = html.Substring(closeAngleIndex, len);
                         collectionName = WebUtility.HtmlDecode(collectionName);
 
-                        ParsedCollectionName = collectionName; // TODO: ick; return a proper structure instead.
+                        retval.CollectionName = collectionName;
                     }
                 }
             }
@@ -129,7 +133,7 @@ namespace ExtractBingMapsCollectionUtilities
                 // From here on in, we always return a new item in the return array.
                 var item = new MapCollectionItem();
                 item.SourceDetails.StartLocation = index;
-                retval.Add(item);
+                retval.Items.Add(item);
 
 
                 var dataTaskIndex = html.IndexOf(dataTaskMarker, index);

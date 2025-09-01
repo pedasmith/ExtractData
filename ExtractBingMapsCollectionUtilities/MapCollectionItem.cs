@@ -45,8 +45,28 @@ namespace ExtractBingMapsCollectionUtilities
             }
             return retval;
         }
+        private static System.Text.Json.JsonSerializerOptions GeoJsonOptions = new System.Text.Json.JsonSerializerOptions
+        {
+            WriteIndented = true
+        };
 
+        public string ToGeoJson()
+        {
+            var geoJson = new GeoJson(this);
+            var retval = System.Text.Json.JsonSerializer.Serialize(geoJson, GeoJsonOptions);
+            return retval;
+        }
 
+        /// <summary>
+        /// See https://maps.co/help/layers/importing-csv for the format. 
+        /// Has 4 columns: lat, lng, name, note. Also works for Google CSV.
+        /// </summary>
+        /// <returns></returns>
+        public string ToMapMakerCsv()
+        {
+            var retval = $"{LatitudeLongitude.Latitude},{LatitudeLongitude.Longitude},{CsvEscape.Escape(TaskTitle)},{CsvEscape.Escape(DescriptionListAsString())}\n";
+            return retval;
+        }
         public override string ToString()
         {
             var retval = "";

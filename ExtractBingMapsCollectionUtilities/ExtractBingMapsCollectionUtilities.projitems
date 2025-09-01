@@ -14,6 +14,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)BingMapsYpidCache.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BingMapsYpidWorkItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BingMapsYpidWorkQueue.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CsvEscape.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GeoJson.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LatitudeLongitudeResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MapCollectionItem.cs" />
   </ItemGroup>

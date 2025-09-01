@@ -87,9 +87,33 @@ namespace ExtractBingMapsCollectionUtilities
     /// </summary>
     public static class BingMapsCollectionParser
     {
+        public static string ParsedCollectionName = "Collection";
         public static List<MapCollectionItem> Parse(string html)
         {
             var retval = new List<MapCollectionItem>();
+
+
+            // Grab the collection name from the HTML. It will look like this:
+            // <div class="collectionPanelTitle cardTitle" data-tag="collectionPanelTitle" id="collectionTitleText">Thorndyke</div>
+            const string collectionTitleIdMarker = "id=\"collectionTitleText\">";
+            int collectionTitleIdIndex = html.IndexOf(collectionTitleIdMarker);
+            if (collectionTitleIdIndex != -1)
+            {
+                var closeAngleIndex = html.IndexOf(">", collectionTitleIdIndex);
+                if (closeAngleIndex != -1)
+                {
+                    closeAngleIndex ++; // move past the >
+                    var endDivIndex = html.IndexOf("</div>", closeAngleIndex);
+                    if (endDivIndex != -1)
+                    {
+                        var len = endDivIndex - closeAngleIndex;
+                        var collectionName = html.Substring(closeAngleIndex, len);
+                        collectionName = WebUtility.HtmlDecode(collectionName);
+
+                        ParsedCollectionName = collectionName; // TODO: ick; return a proper structure instead.
+                    }
+                }
+            }
 
             const string entityMarker = "class=\"collectionEntity\"";
             const string dataTaskMarker = "data-task=\"";

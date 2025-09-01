@@ -9,7 +9,24 @@
     mc:Ignorable="d">
 
     <Grid>
-        <TabView VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <MenuBar Grid.Row="0">
+            <MenuBarItem Title="File">
+                <MenuFlyoutItem Text="Export GeoJSON" Click="OnFile_Export_GeoJson"/>
+                <MenuFlyoutItem Text="Export Google Maps CSV" Click="OnFile_Export_GoogleMapsCsv"/>
+                <!-- 
+                <MenuFlyoutItem Text="Export Map Maker CSV" Click="OnFile_Export_MapMakerCsv"/>
+                -->
+                <MenuFlyoutItem Text="Exit" Click="OnFile_Exit"/>
+            </MenuBarItem>
+            <MenuBarItem Title="Help">
+                <MenuFlyoutItem Text="About" Click="OnHelp_About"/>
+            </MenuBarItem>
+        </MenuBar>
+        <TabView Grid.Row="1" VerticalAlignment="Stretch">
             <TabView.TabItems>
                 <TabViewItem Header="Extract">
                     <Grid>

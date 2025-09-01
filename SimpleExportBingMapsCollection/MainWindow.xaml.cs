@@ -26,6 +26,9 @@ namespace SimpleExportBingMapsCollection
         public MainWindow()
         {
             InitializeComponent();
+            var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
+            //uiBingMapsExtractorControl.AppWindowHandleHwnd = hwnd;
+            BingMapsExtractorControl.AppWindowHandleHwnd = hwnd;
         }
     }
 }

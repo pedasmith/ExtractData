@@ -8,15 +8,15 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="845916a6-827a-4970-bb3e-3f29408418af"
-    Publisher="CN=toomr"
-    Version="1.0.0.0" />
+    Name="48425ShipwreckSoftware.SimpleExporterforBingMapsCo"
+    Publisher="CN=9A3276B6-661B-463D-9598-EFFF0974120A"
+    Version="1.0.2.0" />
 
-  <mp:PhoneIdentity PhoneProductId="845916a6-827a-4970-bb3e-3f29408418af" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="7b0d8ed6-09eb-4cb0-9eb3-bd749ac0e45b" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>Simple Exporter for Bing Maps Collections</DisplayName>
-    <PublisherDisplayName>ShipwreckSoftware</PublisherDisplayName>
+    <PublisherDisplayName>Shipwreck Software</PublisherDisplayName>
     <Logo>Assets\Icons\StoreLogo.png</Logo>
   </Properties>
 

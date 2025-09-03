@@ -27,6 +27,8 @@ namespace SimpleExportBingMapsCollection
         {
             InitializeComponent();
             var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
+            // Let's use a static because it won't really ever change, and 
+            // because I don't always know when the control is fully populated.
             //uiBingMapsExtractorControl.AppWindowHandleHwnd = hwnd;
             BingMapsExtractorControl.AppWindowHandleHwnd = hwnd;
         }

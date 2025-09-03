@@ -13,11 +13,14 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Windows.ApplicationModel;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.Pickers;
+using WinRT.Interop;
+
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -280,6 +283,7 @@ namespace SimpleExportBingMapsCollection
 
 #if CODE_NOT_TESTABLE
 // I no longer have a MapMaker account and cannot test the MapMaker CSV
+// The CSV is similar to the Google Maps CSV, but with different columns names.
         private void OnFile_Export_MapMakerCsv(object sender, RoutedEventArgs e)
         {
             if (FoundCollection.Items.Count == 0)
@@ -364,7 +368,21 @@ namespace SimpleExportBingMapsCollection
 
 
             var savePicker = new Windows.Storage.Pickers.FileSavePicker();
-            WinRT.Interop.InitializeWithWindow.Initialize(savePicker, AppWindowHandleHwnd);
+#if UTTER_FAILURE_1
+            // From Bing
+            // Get the parent window of the FrameworkElement
+            var window = Window.GetWindow(element);
+
+            // Use IWindowNative to retrieve the HWND
+            var windowNative = window.As<IWindowNative>();
+            IntPtr hwnd = windowNative.WindowHandle;
+#endif
+            // UTTER_FAILURE_2 (wrong type) var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
+            // UTTER_FAILURE_3: can't recursively use the Parent to get a Window.
+            // UTTER_FAILURE_$: can't use this.XamlRoot to get anything useful.
+
+            var hWnd = AppWindowHandleHwnd; // Set by App :-(
+            WinRT.Interop.InitializeWithWindow.Initialize(savePicker, hWnd);
 
             savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
             switch (exportType)
@@ -433,35 +451,6 @@ namespace SimpleExportBingMapsCollection
             await DoExport(ExportType.Markdown);
         }
 
-        private void OnDeveloper_Filming(object sender, RoutedEventArgs e)
-        {
-            var tb = sender as ToggleMenuFlyoutItem;
-            if (tb == null) return;
-            uiFilming.Visibility = tb.IsChecked ? Visibility.Visible : Visibility.Collapsed;
-        }
-
-
-        private void OnStatusKeyDown(object sender, KeyRoutedEventArgs e)
-        {
-            switch (e.Key)
-            {
-                case Windows.System.VirtualKey.A:
-                    uiFilmingLocalGuide.Visibility = Visibility.Visible;
-                    uiFilmingMyFavorites.Visibility = Visibility.Collapsed;
-                    uiFilmingMyCollections.Visibility = Visibility.Collapsed;
-                    break;
-                case Windows.System.VirtualKey.S:
-                    uiFilmingLocalGuide.Visibility = Visibility.Collapsed;
-                    uiFilmingMyFavorites.Visibility = Visibility.Visible;
-                    uiFilmingMyCollections.Visibility = Visibility.Collapsed;
-                    break;
-                case Windows.System.VirtualKey.D:
-                    uiFilmingLocalGuide.Visibility = Visibility.Collapsed;
-                    uiFilmingMyFavorites.Visibility = Visibility.Collapsed;
-                    uiFilmingMyCollections.Visibility = Visibility.Visible;
-                    break;
-            }
-        }
 
         private async void OnFile_Reextract(object sender, RoutedEventArgs e)
         {

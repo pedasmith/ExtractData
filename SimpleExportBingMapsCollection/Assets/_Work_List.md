@@ -5,6 +5,9 @@
 Privacy blocks so I can make screen shots with confidential information blocked out. Or remove them all, since I've can use my Shipwreck account?
 
 ### Clean up reminders
+Add images to the Help text?
+Add Feedback dialog box (will need to have a hyper link for a mailto:) 
+Review all help
 Check all code TODO: and DBG: and here!here comments. AS of 2025-09-02 19:50, there are none!
 
 ### Medium and small items

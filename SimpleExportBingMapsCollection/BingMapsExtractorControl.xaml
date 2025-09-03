@@ -27,7 +27,6 @@
                 <MenuFlyoutItem Text="Exit" Click="OnFile_Exit"/>
             </MenuBarItem>
             <MenuBarItem Title="Developer">
-                <ToggleMenuFlyoutItem Text="Set Filming Mode" Click="OnDeveloper_Filming" />
                 <MenuFlyoutItem Text="Show Logging" Click="OnDeveloper_Log" />
             </MenuBarItem>
             <MenuBarItem Title="Help">
@@ -58,13 +57,7 @@
                 <Button Content="Go" Grid.Column="1" Click="GoButton_Click" />
             </Grid>
             <WebView2 x:Name="uiWebView" Grid.Row="2" Grid.ColumnSpan="2" />
-            <TextBlock Grid.Row="3" x:Name="uiStatus" TextWrapping="Wrap" Text="Be sure to log in to see your collections" IsTextSelectionEnabled="True" Grid.ColumnSpan="2" KeyDown="OnStatusKeyDown" />
-            <Canvas x:Name="uiFilming" Grid.Row="2" Visibility="Collapsed" Grid.ColumnSpan="2" >
-                <Image Canvas.Left="920" Canvas.Top="10" Source="/Assets/Privacy/UserHeadshot.png"  />
-                <Image x:Name="uiFilmingMyCollections" Canvas.Left="10" Canvas.Top="70" Source="/Assets/Privacy/MyCollections.png" Visibility="Collapsed" IsHitTestVisible="False"  />
-                <Image x:Name="uiFilmingMyFavorites" Canvas.Left="10" Canvas.Top="70" Source="/Assets/Privacy/MyFavorites.png" Visibility="Collapsed" IsHitTestVisible="False"   />
-                <Image x:Name="uiFilmingLocalGuide" Canvas.Left="10" Canvas.Top="70" Source="/Assets/Privacy/LocalGuide.png" IsHitTestVisible="False"   />
-            </Canvas>
+            <TextBlock Grid.Row="3" x:Name="uiStatus" TextWrapping="Wrap" Text="Be sure to log in to see your collections" IsTextSelectionEnabled="True" Grid.ColumnSpan="2"  />
             <!-- HELP -->
             <Border x:Name="uiHelpBorder" Grid.Column="1" Grid.RowSpan="4" Margin="2" Padding="5" BorderBrush="Black" Background="White" BorderThickness="1" Visibility="Collapsed">
                 <Grid>

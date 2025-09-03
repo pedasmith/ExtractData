@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:SimpleExportBingMapsCollection"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"    
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
@@ -13,21 +14,27 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <MenuBar Grid.Row="0">
+        <MenuBar Grid.Row="0" >
             <MenuBarItem Title="File">
                 <MenuFlyoutItem Text="Export CSV compatible with Google Maps" Click="OnFile_Export_GoogleMapsCsv"/>
                 <MenuFlyoutItem Text="Export GeoJSON" Click="OnFile_Export_GeoJson"/>
+                <MenuFlyoutItem Text="Export HTML" Click="OnFile_Export_Html"/>
                 <MenuFlyoutItem Text="Export Markdown" Click="OnFile_Export_Markdown"/>
+                <MenuFlyoutItem Text="Re-extract from the map" Click="OnFile_Reextract"/>
                 <!-- 
                 <MenuFlyoutItem Text="Export Map Maker CSV" Click="OnFile_Export_MapMakerCsv"/>
                 -->
                 <MenuFlyoutItem Text="Exit" Click="OnFile_Exit"/>
             </MenuBarItem>
+            <MenuBarItem Title="Developer">
+                <ToggleMenuFlyoutItem Text="Set Filming Mode" Click="OnDeveloper_Filming" />
+            </MenuBarItem>
             <MenuBarItem Title="Help">
+                <MenuFlyoutItem Text="Help" Click="OnHelp_Help"/>
                 <MenuFlyoutItem Text="About" Click="OnHelp_About"/>
             </MenuBarItem>
         </MenuBar>
-        <TabView Grid.Row="1" VerticalAlignment="Stretch">
+        <TabView Grid.Row="1" VerticalAlignment="Stretch" x:Name="uiMainTabView">
             <TabView.TabItems>
                 <TabViewItem Header="Extract">
                     <Grid>
@@ -46,17 +53,29 @@
                             </Grid.ColumnDefinitions>
                             <TextBox Grid.Column="0" x:Name="uiUrlTextBox" Grid.Row="0" Text="https://www.bing.com/maps" />
                             <Button Content="Go" Grid.Column="1" Click="GoButton_Click" />
-                            <Button Content="Extract" Grid.Column="2" Click="OnExtract_Click" />
-                            <Button Content="Debug" Grid.Column="3" Click="OnDebug_Click" />
                         </Grid>
                         <WebView2 x:Name="uiWebView" Grid.Row="2" />
-                        <TextBlock Grid.Row="3" x:Name="uiStatus" TextWrapping="Wrap" IsTextSelectionEnabled="True" />
+                        <TextBlock Grid.Row="3" x:Name="uiStatus" TextWrapping="Wrap" Text="Be sure to log in to see your collections" IsTextSelectionEnabled="True" KeyDown="OnStatusKeyDown" />
+                        <Canvas x:Name="uiFilming" Grid.Row="2" Visibility="Collapsed" >
+                            <Image Canvas.Left="920" Canvas.Top="10" Source="/Assets/Privacy/UserHeadshot.png"  />
+                            <Image x:Name="uiFilmingMyCollections" Canvas.Left="10" Canvas.Top="70" Source="/Assets/Privacy/MyCollections.png" Visibility="Collapsed" IsHitTestVisible="False"  />
+                            <Image x:Name="uiFilmingMyFavorites" Canvas.Left="10" Canvas.Top="70" Source="/Assets/Privacy/MyFavorites.png" Visibility="Collapsed" IsHitTestVisible="False"   />
+                            <Image x:Name="uiFilmingLocalGuide" Canvas.Left="10" Canvas.Top="70" Source="/Assets/Privacy/LocalGuide.png" IsHitTestVisible="False"   />
+                        </Canvas>
                     </Grid>
                 </TabViewItem>
                 <TabViewItem Header="Developer">
                     <ScrollView>
                         <TextBlock x:Name="uiDeveloper" TextWrapping="Wrap" IsTextSelectionEnabled="True" />
                     </ScrollView>
+                </TabViewItem>
+                <TabViewItem Header="Help" >
+                    <ScrollViewer Grid.Row="1">
+                        <controls:MarkdownTextBlock x:Name="uiHelpText" 
+                FontFamily="Segoe UI,Segoe MDL2 Assets"
+                ImageStretch="None"
+                />
+                    </ScrollViewer>
                 </TabViewItem>
             </TabView.TabItems>
         </TabView>

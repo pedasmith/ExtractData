@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
@@ -12,7 +13,16 @@ namespace ExtractBingMapsCollectionUtilities
 {
     internal class BingMapsYpidCache
     {
-        private const string CacheFilePath = "c:\\temp\\2025\\TestingBingMapsCollection\\BingMapsYpidCache.json";
+        private string CacheFilePath
+        {
+            get
+            {
+                var applicationDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                var filepath = Path.Combine (applicationDataPath, "SimpleBingMapsCollectionExporter\\BingMapsYpidCache.json");
+                return filepath;
+                //TODO: remove this. var original = "c:\\temp\\2025\\TestingBingMapsCollection\\BingMapsYpidCache.json";
+            }
+        } 
         private List<BingMapsYpidWorkItem> CachedItems { get; } = new List<BingMapsYpidWorkItem>();
 
         public BingMapsYpidWorkItem Get(string id)
@@ -74,8 +84,12 @@ namespace ExtractBingMapsCollectionUtilities
                 }
             }
             var json = System.Text.Json.JsonSerializer.Serialize(list, Options);
+            var fullfile = CacheFilePath;
+            var jsondir = System.IO.Path.GetDirectoryName(fullfile);
+            System.IO.Directory.CreateDirectory(jsondir);
             System.IO.File.WriteAllText(CacheFilePath, json);
         }
+
 
         public void Restore()
         {

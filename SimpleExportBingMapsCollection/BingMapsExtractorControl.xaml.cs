@@ -8,10 +8,12 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
+using System.Formats.Asn1;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
@@ -42,6 +44,28 @@ namespace SimpleExportBingMapsCollection
             // HAS_NO_VALUE: uiWebView.CoreWebView2.FrameNavigationStarting += CoreWebView2_FrameNavigationStarting;
 
             await DoGo();
+
+            // Load the help page
+            uiHelpText.UriPrefix = "ms-appx:///Assets/Help/";
+            //uiHelpText.LinkClicked += UiHelpText_LinkClicked;
+
+            const string StartPage = "HelpForSimpleExport.md";
+            await GotoAsync(StartPage);
+        }
+
+        private async Task GotoAsync(string filename)
+        {
+            try
+            {
+                StorageFolder InstallationFolder = Windows.ApplicationModel.Package.Current.InstalledLocation;
+                string fname = @"Assets\Help\" + filename;
+                var f = await InstallationFolder.GetFileAsync(fname);
+                var fcontents = File.ReadAllText(f.Path);
+                uiHelpText.Text = fcontents;
+            }
+            catch (Exception)
+            {
+            }
         }
 
         private void CoreWebView2_SourceChanged(Microsoft.Web.WebView2.Core.CoreWebView2 sender, Microsoft.Web.WebView2.Core.CoreWebView2SourceChangedEventArgs args)
@@ -111,16 +135,10 @@ namespace SimpleExportBingMapsCollection
         }
 
         /// <summary>
-        /// Read in the HTML from the web site
+        /// Pulls the collection data from the HTML "goo"
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void OnExtract_Click(object sender, RoutedEventArgs e)
-        {
-            await DoExtract();
-        }
-
-        private async Task DoExtract()
+        /// <returns></returns>
+        private async Task DoExtractAsync()
         { 
             await uiWebView.EnsureCoreWebView2Async(); // Idiotic but necessary
             string htmlContent = await uiWebView.ExecuteScriptAsync("document.documentElement.outerHTML");
@@ -244,12 +262,17 @@ namespace SimpleExportBingMapsCollection
 
         private void OnFile_Exit(object sender, RoutedEventArgs e)
         {
-
+            Application.Current.Exit();
         }
 
-        private void OnHelp_About(object sender, RoutedEventArgs e)
+        private async void OnHelp_About(object sender, RoutedEventArgs e)
         {
+            var package = Package.Current;
+            var version = package.Id.Version;
+            string appVersion = $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
 
+            await NotifyUser($"About {package.DisplayName}", 
+                $"{package.DisplayName} version {appVersion}\n\nfrom Shipwreck Software");
         }
 
         // Needed by the picker
@@ -296,6 +319,23 @@ namespace SimpleExportBingMapsCollection
             str = "{\n    \"type\": \"FeatureCollection\",\n    \"features\": [\n" + str + "\n]}\n";
             return str;
         }
+        private async Task<string> Make_HtmlAsync()
+        {
+            var filename = "simple.css";
+            StorageFolder InstallationFolder = Windows.ApplicationModel.Package.Current.InstalledLocation;
+            string fname = @"Assets\" + filename;
+            var f = await InstallationFolder.GetFileAsync(fname);
+            var css_fcontents = File.ReadAllText(f.Path);
+
+            var head = $"<head><title>{FoundCollection.CollectionName}</title>\n<style type=\"text/css\">\n{css_fcontents}\n</style></head>";
+            var str = $"<html>{head}<body>\n<h1>{FoundCollection.CollectionName}</h1>\n";
+            foreach (var item in FoundCollection.Items)
+            {
+                str += item.ToHtml();
+            }
+            str = str + $"\n</body></html>\n\n";
+            return str;
+        }
         private string Make_Markdown()
         {
             var str = "";
@@ -307,14 +347,14 @@ namespace SimpleExportBingMapsCollection
             return str;
         }
 
-        private enum ExportType { CsvGoogle, GeoJson, Markdown };
+        private enum ExportType { CsvGoogle, GeoJson, Html, Markdown };
 
         private async Task DoExport(ExportType exportType)
         {
             // The first time you export, you must have done an export.
             if (FoundCollection.Items.Count == 0)
             {
-                await DoExtract();
+                await DoExtractAsync();
                 if (FoundCollection.Items.Count == 0)
                 {
                     uiStatus.Text = "No collection items found to export";
@@ -335,6 +375,9 @@ namespace SimpleExportBingMapsCollection
                 case ExportType.GeoJson:
                     savePicker.FileTypeChoices.Add("GeoJSON", new List<string>() { ".geojson" }); // Change #1: file type
                     break;
+                case ExportType.Html:
+                    savePicker.FileTypeChoices.Add("HTML", new List<string>() { ".html" }); // Change #1: file type
+                    break;
                 case ExportType.Markdown:
                     savePicker.FileTypeChoices.Add("Markdown", new List<string>() { ".md" }); // Change #1: file type
                     break;
@@ -353,11 +396,14 @@ namespace SimpleExportBingMapsCollection
                     case ExportType.GeoJson:
                         str = Make_GeoJson(); // Change #2: generate string
                         break;
+                    case ExportType.Html:
+                        str = await Make_HtmlAsync(); // Change #2: generate string
+                        break;
                     case ExportType.Markdown:
                         str = Make_Markdown(); // Change #2: generate string
                         break;
                 }
-               
+
                 await FileIO.WriteTextAsync(file, str);
                 uiStatus.Text = $"Export complete to {file.Path}";
                 uiDeveloper.Text = str;
@@ -378,9 +424,54 @@ namespace SimpleExportBingMapsCollection
             await DoExport(ExportType.GeoJson);
         }
 
+        private async void OnFile_Export_Html(object sender, RoutedEventArgs e)
+        {
+            await DoExport(ExportType.Html);
+        }
         private async void OnFile_Export_Markdown(object sender, RoutedEventArgs e)
         {
             await DoExport(ExportType.Markdown);
+        }
+
+        private void OnDeveloper_Filming(object sender, RoutedEventArgs e)
+        {
+            var tb = sender as ToggleMenuFlyoutItem;
+            if (tb == null) return;
+            uiFilming.Visibility = tb.IsChecked ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+
+        private void OnStatusKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Windows.System.VirtualKey.A:
+                    uiFilmingLocalGuide.Visibility = Visibility.Visible;
+                    uiFilmingMyFavorites.Visibility = Visibility.Collapsed;
+                    uiFilmingMyCollections.Visibility = Visibility.Collapsed;
+                    break;
+                case Windows.System.VirtualKey.S:
+                    uiFilmingLocalGuide.Visibility = Visibility.Collapsed;
+                    uiFilmingMyFavorites.Visibility = Visibility.Visible;
+                    uiFilmingMyCollections.Visibility = Visibility.Collapsed;
+                    break;
+                case Windows.System.VirtualKey.D:
+                    uiFilmingLocalGuide.Visibility = Visibility.Collapsed;
+                    uiFilmingMyFavorites.Visibility = Visibility.Collapsed;
+                    uiFilmingMyCollections.Visibility = Visibility.Visible;
+                    break;
+            }
+        }
+
+        private async void OnFile_Reextract(object sender, RoutedEventArgs e)
+        {
+            uiStatus.Text = "";
+            await DoExtractAsync();
+        }
+
+        private void OnHelp_Help(object sender, RoutedEventArgs e)
+        {
+            uiMainTabView.SelectedIndex = 2;
         }
     }
 }

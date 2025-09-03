@@ -23,6 +23,8 @@ namespace ExtractBingMapsCollectionUtilities
 
         BingMapsYpidWorkItem CurrWorkItem = null;
         TextBlock UIStatus = null;
+
+        public double WaitTimeForYpidInSeconds = 5.0;
         public async Task Run(WebView2 webView, TextBlock uiStatus)
         {
             UIStatus = uiStatus;
@@ -45,7 +47,7 @@ namespace ExtractBingMapsCollectionUtilities
                     {
                         await Task.Delay(100);
                     }
-                    await Task.Delay(5000); // TODO: how much time???
+                    await Task.Delay((int)(WaitTimeForYpidInSeconds * 1000)); // Seems to work very reliably
                     if (CurrWorkItem.ResponseUrl.Contains("cp=") && CurrWorkItem.ResponseUrl.Contains("~"))
                     {
                         uiStatus.Text = $"    Item {CurrWorkItem.Id} OK\n" + UIStatus.Text;

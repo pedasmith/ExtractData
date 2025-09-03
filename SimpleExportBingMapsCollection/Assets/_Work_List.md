@@ -2,17 +2,20 @@
 
 ### Big items
 
-Menus + Help system + Version check
-Privacy blocks so I can make screen shots with confidential information blocked out
-
+Privacy blocks so I can make screen shots with confidential information blocked out. Or remove them all, since I've can use my Shipwreck account?
 
 ### Clean up reminders
-Remove the "debug" button
-Check all code TODO: and DBG: and here!here cmments.
+Check all code TODO: and DBG: and here!here comments. AS of 2025-09-02 19:50, there are none!
 
-### Convert ypid and sid
+### Medium and small items
 
-Update Ypid cache to use the "right" directory
+Remove the tab! Just have Extract be the norm, and then overlay a developer or help as needed.
+
+2025-09-02: DONE: Update Ypid cache to use the "right" directory. 
+2025-09-02: DONE: Added HTML with Simple.css from https://simplecss.org/ (and tipped him!)
+2025-09-01: DONE: Menus + Help system + Version check
+2025-09-01: DONE: Remove the "debug" button
+2025-09-01: DONE: The app icon in the title bar is wrong?
 
 2025-09-01: DONE: Additional output: Markdown. And it saves "all the data"
 2025-09-01: DONE: UX for the extract. Normally it's super fast but converting the ypid takes time

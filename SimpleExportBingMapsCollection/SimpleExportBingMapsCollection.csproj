@@ -14,6 +14,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="Assets\ColumbineIcon.png" />
+    <Content Remove="Assets\Help\FilmingTheHelpVideo.md" />
+    <Content Remove="Assets\Help\HelpForSimpleExport.md" />
     <Content Remove="Assets\Help\TechnicalDetailsFileFormats.md" />
     <Content Remove="Assets\_Work_List.md" />
   </ItemGroup>
@@ -44,6 +46,7 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Markdown" Version="7.1.2" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.4948" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250606001" />
   </ItemGroup>
@@ -53,7 +56,29 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Assets\Icons\" />
+    <Content Update="Assets\Icons\MyAppIcon.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Privacy\LocalGuide.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Privacy\MyCollections.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Privacy\MyFavorites.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Privacy\UserHeadshot.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\simple.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Assets\Help\HelpForSimpleExport.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <!--

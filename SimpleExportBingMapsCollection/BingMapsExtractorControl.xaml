@@ -28,58 +28,83 @@
             </MenuBarItem>
             <MenuBarItem Title="Developer">
                 <ToggleMenuFlyoutItem Text="Set Filming Mode" Click="OnDeveloper_Filming" />
+                <MenuFlyoutItem Text="Show Logging" Click="OnDeveloper_Log" />
             </MenuBarItem>
             <MenuBarItem Title="Help">
                 <MenuFlyoutItem Text="Help" Click="OnHelp_Help"/>
                 <MenuFlyoutItem Text="About" Click="OnHelp_About"/>
             </MenuBarItem>
         </MenuBar>
-        <TabView Grid.Row="1" VerticalAlignment="Stretch" x:Name="uiMainTabView">
-            <TabView.TabItems>
-                <TabViewItem Header="Extract">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <Grid Grid.Row="1">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <TextBox Grid.Column="0" x:Name="uiUrlTextBox" Grid.Row="0" Text="https://www.bing.com/maps" />
-                            <Button Content="Go" Grid.Column="1" Click="GoButton_Click" />
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="3*" />
+            </Grid.ColumnDefinitions>
+            <!-- URL -->
+            <Grid Grid.Row="1" Grid.ColumnSpan="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0" x:Name="uiUrlTextBox" Grid.Row="0" Text="https://www.bing.com/maps" />
+                <Button Content="Go" Grid.Column="1" Click="GoButton_Click" />
+            </Grid>
+            <WebView2 x:Name="uiWebView" Grid.Row="2" Grid.ColumnSpan="2" />
+            <TextBlock Grid.Row="3" x:Name="uiStatus" TextWrapping="Wrap" Text="Be sure to log in to see your collections" IsTextSelectionEnabled="True" Grid.ColumnSpan="2" KeyDown="OnStatusKeyDown" />
+            <Canvas x:Name="uiFilming" Grid.Row="2" Visibility="Collapsed" Grid.ColumnSpan="2" >
+                <Image Canvas.Left="920" Canvas.Top="10" Source="/Assets/Privacy/UserHeadshot.png"  />
+                <Image x:Name="uiFilmingMyCollections" Canvas.Left="10" Canvas.Top="70" Source="/Assets/Privacy/MyCollections.png" Visibility="Collapsed" IsHitTestVisible="False"  />
+                <Image x:Name="uiFilmingMyFavorites" Canvas.Left="10" Canvas.Top="70" Source="/Assets/Privacy/MyFavorites.png" Visibility="Collapsed" IsHitTestVisible="False"   />
+                <Image x:Name="uiFilmingLocalGuide" Canvas.Left="10" Canvas.Top="70" Source="/Assets/Privacy/LocalGuide.png" IsHitTestVisible="False"   />
+            </Canvas>
+            <!-- HELP -->
+            <Border x:Name="uiHelpBorder" Grid.Column="1" Grid.RowSpan="4" Margin="2" Padding="5" BorderBrush="Black" Background="White" BorderThickness="1" Visibility="Collapsed">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Border Background="LightGray" HorizontalAlignment="Stretch" Tapped="OnCloseHelpTap">
+                        <Grid HorizontalAlignment="Stretch">
+                            <TextBlock>HELP</TextBlock>
+                            <TextBlock HorizontalAlignment="Right">X</TextBlock>
                         </Grid>
-                        <WebView2 x:Name="uiWebView" Grid.Row="2" />
-                        <TextBlock Grid.Row="3" x:Name="uiStatus" TextWrapping="Wrap" Text="Be sure to log in to see your collections" IsTextSelectionEnabled="True" KeyDown="OnStatusKeyDown" />
-                        <Canvas x:Name="uiFilming" Grid.Row="2" Visibility="Collapsed" >
-                            <Image Canvas.Left="920" Canvas.Top="10" Source="/Assets/Privacy/UserHeadshot.png"  />
-                            <Image x:Name="uiFilmingMyCollections" Canvas.Left="10" Canvas.Top="70" Source="/Assets/Privacy/MyCollections.png" Visibility="Collapsed" IsHitTestVisible="False"  />
-                            <Image x:Name="uiFilmingMyFavorites" Canvas.Left="10" Canvas.Top="70" Source="/Assets/Privacy/MyFavorites.png" Visibility="Collapsed" IsHitTestVisible="False"   />
-                            <Image x:Name="uiFilmingLocalGuide" Canvas.Left="10" Canvas.Top="70" Source="/Assets/Privacy/LocalGuide.png" IsHitTestVisible="False"   />
-                        </Canvas>
-                    </Grid>
-                </TabViewItem>
-                <TabViewItem Header="Developer">
-                    <ScrollView>
-                        <TextBlock x:Name="uiDeveloper" TextWrapping="Wrap" IsTextSelectionEnabled="True" />
-                    </ScrollView>
-                </TabViewItem>
-                <TabViewItem Header="Help" >
+                    </Border>
+
                     <ScrollViewer Grid.Row="1">
                         <controls:MarkdownTextBlock x:Name="uiHelpText" 
                 FontFamily="Segoe UI,Segoe MDL2 Assets"
                 ImageStretch="None"
                 />
                     </ScrollViewer>
-                </TabViewItem>
-            </TabView.TabItems>
-        </TabView>
-
+                </Grid>
+            </Border>
+            <!-- Developer -->
+            <Border x:Name="uiDeveloperBorder" Grid.Column="1" Grid.RowSpan="4" Margin="2" Padding="5" BorderBrush="Black" Background="White" BorderThickness="1" Visibility="Collapsed">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Border Background="LightSlateGray" HorizontalAlignment="Stretch" Tapped="OnCloseHelpTap">
+                        <Grid HorizontalAlignment="Stretch">
+                            <TextBlock>Developer Information</TextBlock>
+                            <TextBlock HorizontalAlignment="Right">X</TextBlock>
+                        </Grid>
+                    </Border>
+                    <ScrollView Grid.Row="1">
+                        <TextBlock x:Name="uiDeveloper" TextWrapping="Wrap" IsTextSelectionEnabled="True" />
+                    </ScrollView>
+                </Grid>
+            </Border>
+        </Grid>
     </Grid>
-
 </UserControl>

@@ -471,7 +471,20 @@ namespace SimpleExportBingMapsCollection
 
         private void OnHelp_Help(object sender, RoutedEventArgs e)
         {
-            uiMainTabView.SelectedIndex = 2;
+            var vis = uiHelpBorder.Visibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
+            uiHelpBorder.Visibility = vis;
+        }
+
+        private void OnCloseHelpTap(object sender, TappedRoutedEventArgs e)
+        {
+            uiHelpBorder.Visibility = Visibility.Collapsed;
+            uiDeveloperBorder.Visibility = Visibility.Collapsed;
+        }
+
+        private void OnDeveloper_Log(object sender, RoutedEventArgs e)
+        {
+            var vis = uiDeveloperBorder.Visibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
+            uiDeveloperBorder.Visibility = vis;
         }
     }
 }

@@ -9,8 +9,7 @@ Check all code TODO: and DBG: and here!here comments. AS of 2025-09-02 19:50, th
 
 ### Medium and small items
 
-Remove the tab! Just have Extract be the norm, and then overlay a developer or help as needed.
-
+2025-09-02: DONE: Remove the tab! Just have Extract be the norm, and then overlay a developer or help as needed. (later: looks so much nicer without the tabs)
 2025-09-02: DONE: Update Ypid cache to use the "right" directory. 
 2025-09-02: DONE: Added HTML with Simple.css from https://simplecss.org/ (and tipped him!)
 2025-09-01: DONE: Menus + Help system + Version check

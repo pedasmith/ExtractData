@@ -1,25 +1,17 @@
 using ExtractBingMapsCollectionUtilities;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
-using System.Formats.Asn1;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 using Windows.ApplicationModel;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.Pickers;
-using WinRT.Interop;
 
 
 // To learn more about WinUI, the WinUI project structure,
@@ -101,9 +93,9 @@ namespace SimpleExportBingMapsCollection
             }
         }
 
-        private async Task NotifyUser(string title, string message)
+        private async Task NotifyUser(string title, string message, string url="", string urlcontent="")
         {
-            ContentDialog noWifiDialog = new ContentDialog
+            ContentDialog notifyUserDialog = new ContentDialog
             {
                 XamlRoot = this.XamlRoot,
                 Title = title,
@@ -111,8 +103,34 @@ namespace SimpleExportBingMapsCollection
                 CloseButtonText = "OK"
             };
 
-            ContentDialogResult result = await noWifiDialog.ShowAsync();
+            if (url != "")
+            {
+                if (urlcontent == "") urlcontent = url;
+                var content = new StackPanel();
+                content.Children.Add(new TextBlock() { Text=message, TextWrapping=TextWrapping.Wrap, IsTextSelectionEnabled=true });
+                var link = new HyperlinkButton() { Content = urlcontent };
+
+                // Per 4438, mailto: doesn't work
+                // https://github.com/microsoft/microsoft-ui-xaml/issues/4438
+                link.Click += async (sender, e) =>
+                {
+                    //var subject = System.Web.HttpUtility.UrlEncode("Feedback for Simple Export for Bing Maps Collection", Encoding.ASCII); ;
+                    var subject = Uri.EscapeDataString("Feedback for Simple Export for Bing Maps Collection"); ;
+                    var mailtoUrl = new Uri(url + "?subject=" + subject);
+                    await Windows.System.Launcher.LaunchUriAsync(mailtoUrl);
+                };
+                content.Children.Add(link);
+                notifyUserDialog.Content = content;
+            }
+
+            ContentDialogResult result = await notifyUserDialog.ShowAsync();
         }
+
+        private void Link_Click(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         private async void GoButton_Click(object sender, RoutedEventArgs e)
         {
             await DoGo();
@@ -223,7 +241,8 @@ namespace SimpleExportBingMapsCollection
 
                 await queue.Run(uiWebView, uiDeveloper); // This will update the status as it goes. Cache is updated, too.
                 // Update the cache and save the location data into the work items.
-                YpidCache.Save();
+                var cacheFile = YpidCache.Save();
+                str += $"Cache file: {cacheFile}\n";
                 int nOK = 0;
                 int nFailed = 0;
                 foreach (var (mapitem, workItem) in ypidDictionary)
@@ -275,7 +294,7 @@ namespace SimpleExportBingMapsCollection
             string appVersion = $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
 
             await NotifyUser($"About {package.DisplayName}", 
-                $"{package.DisplayName} version {appVersion}\n\nfrom Shipwreck Software");
+                $"{package.DisplayName} version {appVersion}\n\nfrom Shipwreck Software.\n\n Got feedback? Email to ShipwreckSoftware@live.com is welcome any time (or press the button to open your email client)", "mailto:ShipwreckSoftare@live.com", "ShipwreckSoftware@live.com");
         }
 
         // Needed by the picker
@@ -355,6 +374,8 @@ namespace SimpleExportBingMapsCollection
 
         private async Task DoExport(ExportType exportType)
         {
+            uiDeveloper.Text = "";// clear it
+
             // The first time you export, you must have done an export.
             if (FoundCollection.Items.Count == 0)
             {
@@ -424,7 +445,7 @@ namespace SimpleExportBingMapsCollection
 
                 await FileIO.WriteTextAsync(file, str);
                 uiStatus.Text = $"Export complete to {file.Path}";
-                uiDeveloper.Text = str;
+                uiDeveloper.Text += str;
             }
             else
             {

@@ -20,7 +20,6 @@ namespace ExtractBingMapsCollectionUtilities
                 var applicationDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
                 var filepath = Path.Combine (applicationDataPath, "SimpleBingMapsCollectionExporter\\BingMapsYpidCache.json");
                 return filepath;
-                //TODO: remove this. var original = "c:\\temp\\2025\\TestingBingMapsCollection\\BingMapsYpidCache.json";
             }
         } 
         private List<BingMapsYpidWorkItem> CachedItems { get; } = new List<BingMapsYpidWorkItem>();
@@ -73,7 +72,7 @@ namespace ExtractBingMapsCollectionUtilities
         /// <summary>
         /// Call this to re-save the cache to disk. See also the Restore() method.
         /// </summary>
-        public void Save()
+        public string Save()
         {
             var list = new List<BingMapsYpidWorkItem>();
             foreach (var item in CachedItems)
@@ -88,6 +87,7 @@ namespace ExtractBingMapsCollectionUtilities
             var jsondir = System.IO.Path.GetDirectoryName(fullfile);
             System.IO.Directory.CreateDirectory(jsondir);
             System.IO.File.WriteAllText(CacheFilePath, json);
+            return CacheFilePath;
         }
 
 

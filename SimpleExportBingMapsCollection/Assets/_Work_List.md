@@ -6,12 +6,12 @@ Privacy blocks so I can make screen shots with confidential information blocked 
 
 ### Clean up reminders
 Add images to the Help text?
-Add Feedback dialog box (will need to have a hyper link for a mailto:) 
 Review all help
 Check all code TODO: and DBG: and here!here comments. AS of 2025-09-02 19:50, there are none!
 
 ### Medium and small items
 
+2025-08-02: DONE: Add Feedback dialog box (will need to have a hyper link for a mailto:) 
 2025-09-02: DONE: Remove the tab! Just have Extract be the norm, and then overlay a developer or help as needed. (later: looks so much nicer without the tabs)
 2025-09-02: DONE: Update Ypid cache to use the "right" directory. 
 2025-09-02: DONE: Added HTML with Simple.css from https://simplecss.org/ (and tipped him!)

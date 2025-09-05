@@ -40,5 +40,11 @@ Some map collection items might have been added from the Bing Maps search. These
 ## Helpful links
 
 There's a quick [YouTube](https://youtu.be/pH2Oap7tSK4) showing how to use the program
+The app is available in the [Microsoft Store](https://apps.microsoft.com/detail/9pp7sj1cpl3p)
+There's a [Blog Post](https://shipwrecksoftware.wordpress.com/2025/09/04/new-app-simple-exporter-for-bing-maps-collections/)
+The app is announced on [LinkedIn](https://www.linkedin.com/posts/peter-smith-4841a0_simple-exporter-for-bing-maps-collections-activity-7369588910407999488-C9HX?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAAG-KQBCfiOiWjuM9Z07Ic7a4-f-khOwNY)
+App repo on [GitHub/pedasmith/ExtractData](https://github.com/pedasmith/ExtractData)
+The original GitHub [Python](https://github.com/stevendirven1/Bing_Maps_Collections_Export_Python): 
 
+Microsoft [QA](https://learn.microsoft.com/en-us/answers/questions/2275578/how-do-i-export-my-places-from-bing-maps)
 
